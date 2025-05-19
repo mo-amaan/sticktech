@@ -1,5 +1,11 @@
 "use client";
+
+import { useState } from "react";
+import Portal from "./Portal";
+
 export default function Products() {
+  const [portalImage, setPortalImage] = useState(null);
+
   const stickerDescriptions = {
     CSS_HTML_Javascript:
       "Core web technologies for structure, styling, interactivity.",
@@ -15,14 +21,39 @@ export default function Products() {
   const sticker = Object.keys(stickerDescriptions);
   return (
     <>
+      {
+        // this here is an example of conditional rendering meaning if there are
+        //   things to be rendered they will be only if the condtions is met.very easy
+        //   to do in react
+      }
+      {portalImage && (
+        <Portal
+          handleClosePortal={() => {
+            setPortalImage(null);
+          }}
+        >
+          <div className="portal-content">
+            <img
+              className="img-display"
+              src={`med_res/${portalImage}.jpeg`}
+              alt={`${portalImage}-high-res`}
+            />
+          </div>
+        </Portal>
+      )}
       <div className="section-container">
         <div className="section-header">
           <h2>Shop Our Collection</h2>
           <p>From organization to accessorization</p>
         </div>
-        <div className="planner-content">
+        <div className="planner-container">
           <div>
-            <button className="img-button">
+            <button
+              onClick={() => {
+                setPortalImage("planner");
+              }}
+              className="img-button"
+            >
               <img src="low_res/planner.jpeg" alt="high-res-planner" />
             </button>
           </div>
@@ -70,7 +101,12 @@ export default function Products() {
           {sticker.map((sticker, stickerIndex) => {
             return (
               <div key={stickerIndex} className="sticker-card">
-                <button className="img-button">
+                <button
+                  onClick={() => {
+                    setPortalImage(sticker);
+                  }}
+                  className="img-button"
+                >
                   <img
                     src={`low_res/${sticker}.jpeg`}
                     alt={`${sticker}-low-res`}
